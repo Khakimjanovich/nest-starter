@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({ name: "permissions" })
 export class Permission {
@@ -16,7 +16,4 @@ export class Permission {
 
   @UpdateDateColumn({ name: "updated_at" })
   updated_at: Date;
-
-  @DeleteDateColumn({ name: "deleted_at", nullable: true })
-  deleted_at?: Date;
 }
