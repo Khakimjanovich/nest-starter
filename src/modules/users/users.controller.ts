@@ -8,19 +8,19 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {
   }
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
-
   @Get()
-  findAll() {
+  index() {
     return this.usersService.findAll();
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
+  show(@Param("id") id: string) {
     return this.usersService.findOneById(+id);
+  }
+
+  @Post()
+  store(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create(createUserDto);
   }
 
   @Patch(":id")
