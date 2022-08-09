@@ -40,4 +40,8 @@ export class UsersService {
 
     return this.usersRepository.save(user);
   }
+
+  async findByEmail(email: string): Promise<User[]> {
+    return await this.usersRepository.find({ where: { email } });
+  }
 }

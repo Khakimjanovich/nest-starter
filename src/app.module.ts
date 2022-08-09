@@ -5,6 +5,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { APP_PIPE } from "@nestjs/core";
 import { RolesModule } from "./roles/roles.module";
 import { UsersModule } from "./users/users.module";
+import { AuthModule } from './auth/auth.module';
 
 const settings = require("../ormconfig.js");
 
@@ -12,12 +13,13 @@ const settings = require("../ormconfig.js");
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: `.env.${process.env.NODE_ENV}`
+      envFilePath: `.env`
     }),
     TypeOrmModule.forRoot(settings),
     PermissionsModule,
     RolesModule,
     UsersModule,
+    AuthModule,
     // AuthModule
   ],
   controllers: [],

@@ -1,7 +1,6 @@
 import {
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
@@ -11,7 +10,7 @@ import {
 import { Role } from "../../roles/entities/role.entity";
 import { Permission } from "../../permissions/entities/permission.entity";
 
-@Entity()
+@Entity({ name: "users" })
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
