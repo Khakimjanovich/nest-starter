@@ -19,7 +19,6 @@ export class PermissionsService {
     const take: number = +query.take || 10;
     const skip: number = +query.skip || 0;
     const keyword: string = query.keyword || "";
-    console.log(take, skip, keyword);
 
     const [result, total] = await this.permissionRepository.findAndCount(
       {
