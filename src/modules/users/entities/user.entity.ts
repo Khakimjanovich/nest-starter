@@ -4,11 +4,13 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
 import { Role } from "../../roles/entities/role.entity";
 import { Permission } from "../../permissions/entities/permission.entity";
+import { Activity } from "../../activities/entities/activity.entity";
 
 @Entity({ name: "users" })
 export class User {
@@ -37,4 +39,7 @@ export class User {
   @ManyToMany(() => Permission)
   @JoinTable()
   permissions: Permission[];
+
+  @OneToMany(() => Activity, (activities) => activities.user)
+  activities: Activity[];
 }

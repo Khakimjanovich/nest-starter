@@ -16,8 +16,8 @@ export class PermissionsService {
   }
 
   async paginate(query: GetIndexPermissionsDto): Promise<{ data: Permission[], count: number }> {
-    const take: number = +query.take || 10;
-    const skip: number = +query.skip || 0;
+      const take: number = +query.take || 10;
+      const skip: number = +query.skip || 0;
     const keyword: string = query.keyword || "";
     console.log(take, skip, keyword);
 

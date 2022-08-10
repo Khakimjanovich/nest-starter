@@ -6,6 +6,7 @@ import { PermissionsModule } from "../modules/permissions/permissions.module";
 import { RolesModule } from "../modules/roles/roles.module";
 import { UsersModule } from "../modules/users/users.module";
 import { AuthModule } from "../modules/auth/auth.module";
+import { ActivitiesModule } from "../modules/activities/activities.module";
 
 const settings = require("../../ormconfig.js");
 
@@ -19,15 +20,22 @@ const settings = require("../../ormconfig.js");
     PermissionsModule,
     RolesModule,
     UsersModule,
-    AuthModule
+    AuthModule,
+    ActivitiesModule
   ],
   controllers: [],
   providers: [{
     provide: APP_PIPE,
     useValue: new ValidationPipe({
-      whitelist: true,//
-    }),
-  }],
+      skipMissingProperties: false,
+      forbidNonWhitelisted: true,
+      whitelist: true,
+      transform: true,
+      validationError: {
+        target: true
+      }
+    })
+  }]
 })
 export class AppModule {
 }

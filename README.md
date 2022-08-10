@@ -44,3 +44,10 @@ configuration for different modes
     npm install --save @nestjs/passport @nestjs/jwt- passport passport-local passport-jwt
     npm install --save-dev @types/passport-jwt @types/passport-local
 ```
+### Day three
+
+1. The aim is to create documentation
+
+```
+    npm install --save @nestjs/swagger
+```
