@@ -36,19 +36,59 @@ export class PermissionsController {
   }
 
   @ApiOperation({ summary: "Getting the specific permission!" })
-  @ApiResponse({ status: 200, type: Permission })
+  @ApiResponse({
+    status: 200, schema: {
+      example: {
+        "data": {
+          "id": 1,
+          "name": "permissions.index",
+          "label": "Read permission edit",
+          "created_at": "2022-08-08T13:35:58.000Z",
+          "updated_at": "2022-08-10T21:35:43.000Z"
+        }
+      }
+    }
+  })
   @Get(":id")
   show(@Param("id") id: string): Promise<{ data: Permission }> {
     return this.permissionsService.findOneById(+id);
   }
 
+  @ApiOperation({ summary: "Storing a permission!" })
+  @ApiResponse({
+    status: 201, schema: {
+      example: {
+        "data": {
+          "id": 1,
+          "name": "permissions.index",
+          "label": "Read permission edit",
+          "created_at": "2022-08-08T13:35:58.000Z",
+          "updated_at": "2022-08-10T21:35:43.000Z"
+        }
+      }
+    }
+  })
   @Post()
   store(@Body() createPermissionDto: CreatePermissionDto) {
     return this.permissionsService.create(createPermissionDto);
   }
 
+  @ApiOperation({ summary: "Updating a specific permission!" })
+  @ApiResponse({
+    status: 200, schema: {
+      example: {
+        "data": {
+          "id": 1,
+          "name": "permissions.index",
+          "label": "Read permission edit",
+          "created_at": "2022-08-08T13:35:58.000Z",
+          "updated_at": "2022-08-10T21:35:43.000Z"
+        }
+      }
+    }
+  })
   @Patch(":id")
-  update(@Param("id") id: string, @Body() updatePermissionDto: UpdatePermissionDto): Promise<{ data: Promise<Permission> }> {
+  update(@Param("id") id: string, @Body() updatePermissionDto: UpdatePermissionDto): Promise<{ data: Permission }> {
     return this.permissionsService.update(+id, updatePermissionDto);
   }
 }

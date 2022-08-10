@@ -16,8 +16,8 @@ export class PermissionsService {
   }
 
   async paginate(query: GetIndexPermissionsDto): Promise<{ data: Permission[], count: number }> {
-      const take: number = +query.take || 10;
-      const skip: number = +query.skip || 0;
+    const take: number = +query.take || 10;
+    const skip: number = +query.skip || 0;
     const keyword: string = query.keyword || "";
     console.log(take, skip, keyword);
 
@@ -54,10 +54,10 @@ export class PermissionsService {
     throw new BadRequestException(`Model with this name: ${name} already exists!`);
   }
 
-  async update(id: number, { label }: UpdatePermissionDto): Promise<{ data: Promise<Permission> }> {
+  async update(id: number, { label }: UpdatePermissionDto): Promise<{ data: Permission }> {
     const { data: permission } = await this.findOneById(id);
     Object.assign(permission, { label });
 
-    return { data: this.permissionRepository.save(permission) };
+    return { data: await this.permissionRepository.save(permission) };
   }
 }
