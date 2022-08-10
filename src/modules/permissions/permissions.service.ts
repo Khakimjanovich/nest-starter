@@ -2,8 +2,9 @@ import { BadRequestException, Injectable, NotFoundException } from "@nestjs/comm
 import { CreatePermissionDto } from "./dto/create-permission.dto";
 import { UpdatePermissionDto } from "./dto/update-permission.dto";
 import { Permission } from "./entities/permission.entity";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
+import { GetIndexPermissionsDto } from "./dto/get-index-permissions.dto";
 
 @Injectable()
 export class PermissionsService {
@@ -14,13 +15,33 @@ export class PermissionsService {
     return this.permissionRepository.find();
   }
 
-  async findOneById(id: number): Promise<Permission> {
+  async paginate(query: GetIndexPermissionsDto): Promise<{ data: Permission[], count: number }> {
+    const take: number = +query.take || 10;
+    const skip: number = +query.skip || 0;
+    const keyword: string = query.keyword || "";
+    console.log(take, skip, keyword);
+
+    const [result, total] = await this.permissionRepository.findAndCount(
+      {
+        take,
+        skip,
+        where: { name: Like(`%${keyword}%`) }
+      }
+    );
+    return {
+      data: result,
+      count: total
+    };
+
+  }
+
+  async findOneById(id: number): Promise<{ data: Permission }> {
     const permission = await this.permissionRepository.findOne({ where: { id } });
     if (!permission) {
-      throw new NotFoundException("Model with this id not found!");
+      throw new NotFoundException("Model not found!");
     }
 
-    return permission;
+    return { data: permission };
   }
 
   async create({ name, label }: CreatePermissionDto) {
@@ -33,10 +54,10 @@ export class PermissionsService {
     throw new BadRequestException(`Model with this name: ${name} already exists!`);
   }
 
-  async update(id: number, { label }: UpdatePermissionDto): Promise<Permission> {
-    const permission = await this.findOneById(id);
+  async update(id: number, { label }: UpdatePermissionDto): Promise<{ data: Promise<Permission> }> {
+    const { data: permission } = await this.findOneById(id);
     Object.assign(permission, { label });
 
-    return this.permissionRepository.save(permission);
+    return { data: this.permissionRepository.save(permission) };
   }
 }

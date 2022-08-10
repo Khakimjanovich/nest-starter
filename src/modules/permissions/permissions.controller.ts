@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import { PermissionsService } from "./permissions.service";
 import { CreatePermissionDto } from "./dto/create-permission.dto";
 import { UpdatePermissionDto } from "./dto/update-permission.dto";
+import { Permission } from "./entities/permission.entity";
+import { GetIndexPermissionsDto } from "./dto/get-index-permissions.dto";
 
 @Controller("permissions")
 export class PermissionsController {
@@ -9,22 +11,23 @@ export class PermissionsController {
   }
 
   @Get()
-  findAll() {
-    return this.permissionsService.findAll();
+  index(@Query() { take, skip, keyword }: GetIndexPermissionsDto) {
+    console.log(take,skip,keyword)
+    return this.permissionsService.paginate({ take, skip, keyword });
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
+  show(@Param("id") id: string): Promise<{ data: Permission }> {
     return this.permissionsService.findOneById(+id);
   }
 
   @Post()
-  create(@Body() createPermissionDto: CreatePermissionDto) {
+  store(@Body() createPermissionDto: CreatePermissionDto) {
     return this.permissionsService.create(createPermissionDto);
   }
 
   @Patch(":id")
-  update(@Param("id") id: string, @Body() updatePermissionDto: UpdatePermissionDto) {
+  update(@Param("id") id: string, @Body() updatePermissionDto: UpdatePermissionDto): Promise<{ data: Promise<Permission> }> {
     return this.permissionsService.update(+id, updatePermissionDto);
   }
 }

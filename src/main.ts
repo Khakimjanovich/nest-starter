@@ -7,5 +7,5 @@ async function bootstrap() {
 }
 
 bootstrap().then(() => {
-  console.log(`App is running in: ${process.env.APP_URL}`);
+  console.log(`App is running on: ${process.env.APP_URL}`);
 });

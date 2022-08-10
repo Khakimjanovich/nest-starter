@@ -19,15 +19,15 @@ const settings = require("../../ormconfig.js");
     PermissionsModule,
     RolesModule,
     UsersModule,
-    AuthModule,
+    AuthModule
   ],
   controllers: [],
   providers: [{
     provide: APP_PIPE,
     useValue: new ValidationPipe({
-      whitelist: true
-    })
-  }]
+      whitelist: true,//
+    }),
+  }],
 })
 export class AppModule {
 }
