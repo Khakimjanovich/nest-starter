@@ -28,7 +28,6 @@ const settings = require("../../ormconfig.js");
     provide: APP_PIPE,
     useValue: new ValidationPipe({
       skipMissingProperties: false,
-      forbidNonWhitelisted: true,
       whitelist: true,
       transform: true,
       validationError: {

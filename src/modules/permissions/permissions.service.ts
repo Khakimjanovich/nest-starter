@@ -5,6 +5,7 @@ import { Permission } from "./entities/permission.entity";
 import { Like, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { GetIndexPermissionsDto } from "./dto/get-index-permissions.dto";
+import { GetIndexUsersDto } from "../users/dto/get-index-users.dto";
 
 @Injectable()
 export class PermissionsService {
@@ -15,23 +16,27 @@ export class PermissionsService {
     return this.permissionRepository.find();
   }
 
-  async paginate(query: GetIndexPermissionsDto): Promise<{ data: Permission[], count: number }> {
-    const take: number = +query.take || 10;
-    const skip: number = +query.skip || 0;
-    const keyword: string = query.keyword || "";
+  async paginate(query: GetIndexPermissionsDto) {
+    const page: number = +query.page || 1;
+    const page_size: number = +query.page_size || 10;
+    const search: string = query.search || "";
 
-    const [result, total] = await this.permissionRepository.findAndCount(
+    const [data, count] = await this.permissionRepository.findAndCount(
       {
-        take,
-        skip,
-        where: { name: Like(`%${keyword}%`) }
+        order: {
+          created_at: "DESC"
+        },
+        where: search ? { name: Like(`%${search}%`) } : {},
+        skip: (page - 1) * page_size,
+        take: page_size
       }
     );
     return {
-      data: result,
-      count: total
+      page,
+      data,
+      count,
+      page_size
     };
-
   }
 
   async findOneById(id: number): Promise<{ data: Permission }> {

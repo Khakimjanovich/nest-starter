@@ -4,7 +4,7 @@ import { CreatePermissionDto } from "./dto/create-permission.dto";
 import { UpdatePermissionDto } from "./dto/update-permission.dto";
 import { Permission } from "./entities/permission.entity";
 import { GetIndexPermissionsDto } from "./dto/get-index-permissions.dto";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 
 @ApiTags("Permissions")
 @Controller("permissions")
@@ -13,8 +13,8 @@ export class PermissionsController {
   }
 
   @ApiOperation({ summary: "Getting the list of the permissions!" })
-  @ApiResponse({
-    status: 200, schema: {
+  @ApiOkResponse({
+    schema: {
       example: {
         data: [
           {
@@ -25,26 +25,27 @@ export class PermissionsController {
             updated_at: "2022-01-02"
           }
         ],
-        count: 3
+        page: 1,
+        page_size: 10,
+        count: 13
       }
     }
   })
   @Get()
-  index(@Query() { take, skip, keyword }: GetIndexPermissionsDto) {
-    console.log(take, skip, keyword);
-    return this.permissionsService.paginate({ take, skip, keyword });
+  index(@Query() { page, page_size, search }: GetIndexPermissionsDto) {
+    return this.permissionsService.paginate({ page, page_size, search });
   }
 
   @ApiOperation({ summary: "Getting the specific permission!" })
-  @ApiResponse({
-    status: 200, schema: {
+  @ApiOkResponse({
+    schema: {
       example: {
-        "data": {
-          "id": 1,
-          "name": "permissions.index",
-          "label": "Read permission edit",
-          "created_at": "2022-08-08T13:35:58.000Z",
-          "updated_at": "2022-08-10T21:35:43.000Z"
+        data: {
+          id: 1,
+          name: "permissions.index",
+          label: "Read permission edit",
+          created_at: "2022-08-08T13:35:58.000Z",
+          updated_at: "2022-08-10T21:35:43.000Z"
         }
       }
     }
@@ -55,16 +56,10 @@ export class PermissionsController {
   }
 
   @ApiOperation({ summary: "Storing a permission!" })
-  @ApiResponse({
-    status: 201, schema: {
+  @ApiCreatedResponse({
+    schema: {
       example: {
-        "data": {
-          "id": 1,
-          "name": "permissions.index",
-          "label": "Read permission edit",
-          "created_at": "2022-08-08T13:35:58.000Z",
-          "updated_at": "2022-08-10T21:35:43.000Z"
-        }
+        data: Permission
       }
     }
   })
@@ -74,15 +69,15 @@ export class PermissionsController {
   }
 
   @ApiOperation({ summary: "Updating a specific permission!" })
-  @ApiResponse({
-    status: 200, schema: {
+  @ApiOkResponse({
+    schema: {
       example: {
-        "data": {
-          "id": 1,
-          "name": "permissions.index",
-          "label": "Read permission edit",
-          "created_at": "2022-08-08T13:35:58.000Z",
-          "updated_at": "2022-08-10T21:35:43.000Z"
+        data: {
+          id: 1,
+          name: "permissions.index",
+          label: "Read permission edit",
+          created_at: "2022-08-08T13:35:58.000Z",
+          updated_at: "2022-08-10T21:35:43.000Z"
         }
       }
     }
