@@ -5,7 +5,6 @@ import { Permission } from "./entities/permission.entity";
 import { Like, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { GetIndexPermissionsDto } from "./dto/get-index-permissions.dto";
-import { GetIndexUsersDto } from "../users/dto/get-index-users.dto";
 
 @Injectable()
 export class PermissionsService {

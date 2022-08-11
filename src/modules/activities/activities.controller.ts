@@ -1,9 +1,11 @@
-import { Controller, Get, Query } from "@nestjs/common";
+import { Controller, Get, Query, UseGuards } from "@nestjs/common";
 import { ActivitiesService } from "./activities.service";
 import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { GetIndexActivitiesDto } from "./dtos/get-index-activities.dto";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 
 @ApiTags("Activities log")
+@UseGuards(JwtAuthGuard)
 @Controller("activities")
 export class ActivitiesController {
   constructor(private readonly activitiesService: ActivitiesService) {
